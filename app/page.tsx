@@ -158,7 +158,7 @@ export default function Portfolio() {
                   <div className="relative">
                     <div className="w-80 h-80 lg:w-96 lg:h-96 rounded-full overflow-hidden border-8 border-white shadow-2xl">
                       <Image
-                        src="/placeholder.svg?height=400&width=400"
+                        src="/lokesh-photo.jpg"
                         alt="Lokesh Venkatesan"
                         width={400}
                         height={400}
