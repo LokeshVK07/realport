@@ -6,7 +6,7 @@ import { useState } from "react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Linkedin, Mail, Phone, MapPin, Code, Database, BarChart3, Wrench, Home } from "lucide-react"
+import { Linkedin, Mail, Phone, MapPin, Code, Database, BarChart3, Wrench, Home, FileText } from "lucide-react"
 import Image from "next/image"
 import { sendContactEmail } from "./actions/send-email"
 
@@ -145,6 +145,12 @@ export default function Portfolio() {
                         LinkedIn
                       </a>
                     </Button>
+                    <Button asChild variant="outline" size="lg">
+                      <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">
+                        <FileText className="w-5 h-5 mr-2" />
+                        View Resume
+                      </a>
+                    </Button>
                   </div>
                 </div>
 
@@ -193,6 +199,12 @@ export default function Portfolio() {
                       </Button>
                       <Button variant="outline" onClick={() => setActiveSection("projects")}>
                         See My Projects
+                      </Button>
+                      <Button variant="outline" asChild>
+                        <a href="/resume.pdf" download="Lokesh_Venkatesan_Resume.pdf">
+                          <FileText className="w-4 h-4 mr-2" />
+                          Download Resume
+                        </a>
                       </Button>
                     </div>
                   </div>
