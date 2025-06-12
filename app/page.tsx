@@ -6,7 +6,7 @@ import { useState } from "react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Linkedin, Mail, Phone, MapPin, Code, Database, BarChart3, Wrench, Home, FileText } from "lucide-react"
+import { Linkedin, Mail, Phone, MapPin, Code, Database, BarChart3, Wrench, Home, FileText, Menu } from "lucide-react"
 import Image from "next/image"
 import { sendContactEmail } from "./actions/send-email"
 import { ThemeToggle } from "@/components/theme-toggle"
@@ -17,6 +17,7 @@ export default function Portfolio() {
   const [activeSection, setActiveSection] = useState<ActiveSection>("home")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitMessage, setSubmitMessage] = useState<{ type: "success" | "error"; text: string } | null>(null)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const technicalSkills = {
     programming: ["Python", "C#", "R"],
@@ -88,18 +89,76 @@ export default function Portfolio() {
             {/* Mobile Navigation */}
             <div className="md:hidden flex items-center space-x-2">
               <ThemeToggle />
-              <select
-                value={activeSection}
-                onChange={(e) => setActiveSection(e.target.value as ActiveSection)}
-                className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-              >
-                <option value="home">Home</option>
-                <option value="about">About</option>
-                <option value="education">Education</option>
-                <option value="skills">Skills</option>
-                <option value="projects">Projects</option>
-                <option value="contact">Contact</option>
-              </select>
+              <div className="relative">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  className="relative z-50"
+                >
+                  <Menu className="h-5 w-5" />
+                  <span className="sr-only">Toggle menu</span>
+                </Button>
+
+                {mobileMenuOpen && (
+                  <div className="absolute top-full right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-40 border border-gray-200 dark:border-gray-700">
+                    <button
+                      onClick={() => {
+                        setActiveSection("home")
+                        setMobileMenuOpen(false)
+                      }}
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                    >
+                      Home
+                    </button>
+                    <button
+                      onClick={() => {
+                        setActiveSection("about")
+                        setMobileMenuOpen(false)
+                      }}
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                    >
+                      About
+                    </button>
+                    <button
+                      onClick={() => {
+                        setActiveSection("education")
+                        setMobileMenuOpen(false)
+                      }}
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                    >
+                      Education
+                    </button>
+                    <button
+                      onClick={() => {
+                        setActiveSection("skills")
+                        setMobileMenuOpen(false)
+                      }}
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                    >
+                      Skills
+                    </button>
+                    <button
+                      onClick={() => {
+                        setActiveSection("projects")
+                        setMobileMenuOpen(false)
+                      }}
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                    >
+                      Projects
+                    </button>
+                    <button
+                      onClick={() => {
+                        setActiveSection("contact")
+                        setMobileMenuOpen(false)
+                      }}
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                    >
+                      Contact
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -109,30 +168,30 @@ export default function Portfolio() {
       <div className="pt-20">
         {/* Home Section */}
         {activeSection === "home" && (
-          <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
-            <div className="container mx-auto px-6">
-              <div className="grid lg:grid-cols-2 gap-12 items-center">
-                <div className="space-y-8">
+          <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-10">
+            <div className="container mx-auto px-4 sm:px-6">
+              <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+                <div className="space-y-6 text-center lg:text-left">
                   <div className="space-y-4">
-                    <h1 className="text-5xl lg:text-7xl font-bold text-gray-900 dark:text-white leading-tight">
+                    <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-gray-900 dark:text-white leading-tight">
                       Lokesh
                       <br />
                       <span className="text-blue-600 dark:text-blue-400">Venkatesan</span>
                     </h1>
-                    <p className="text-2xl lg:text-3xl text-gray-600 dark:text-gray-300 font-light">
+                    <p className="text-xl sm:text-2xl lg:text-3xl text-gray-600 dark:text-gray-300 font-light">
                       Data Science Student & Aspiring Engineer
                     </p>
-                    <p className="text-lg text-gray-500 dark:text-gray-400 max-w-lg">
+                    <p className="text-base sm:text-lg text-gray-500 dark:text-gray-400 max-w-lg mx-auto lg:mx-0">
                       Engineering graduate with strong analytical and programming skills, currently pursuing Master's in
                       Data Science
                     </p>
-                    <div className="flex items-center space-x-2 text-gray-600 dark:text-gray-400">
-                      <MapPin className="w-4 h-4" />
+                    <div className="flex items-center justify-center lg:justify-start space-x-2 text-gray-600 dark:text-gray-400">
+                      <MapPin className="w-4 h-4 flex-shrink-0" />
                       <span>Brisbane, Queensland, Australia</span>
                     </div>
                   </div>
 
-                  <div className="flex space-x-4">
+                  <div className="flex flex-wrap justify-center lg:justify-start gap-3">
                     <Button
                       size="lg"
                       className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700"
@@ -169,9 +228,9 @@ export default function Portfolio() {
                   </div>
                 </div>
 
-                <div className="flex justify-center lg:justify-end">
+                <div className="flex justify-center lg:justify-end mt-8 lg:mt-0">
                   <div className="relative">
-                    <div className="w-80 h-80 lg:w-96 lg:h-96 rounded-full overflow-hidden border-8 border-white dark:border-gray-700 shadow-2xl">
+                    <div className="w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 rounded-full overflow-hidden border-8 border-white dark:border-gray-700 shadow-2xl">
                       <Image
                         src="/lokesh-photo.jpg"
                         alt="Lokesh Venkatesan"
@@ -181,7 +240,7 @@ export default function Portfolio() {
                       />
                     </div>
                     <div className="absolute -bottom-4 -right-4 bg-blue-600 dark:bg-blue-500 text-white p-4 rounded-full shadow-lg">
-                      <Linkedin className="w-8 h-8" />
+                      <Linkedin className="w-6 h-6 sm:w-8 sm:h-8" />
                     </div>
                   </div>
                 </div>
@@ -193,22 +252,24 @@ export default function Portfolio() {
         {/* About Section */}
         {activeSection === "about" && (
           <section className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900">
-            <div className="container mx-auto px-6 py-20">
+            <div className="container mx-auto px-4 sm:px-6 py-16 sm:py-20">
               <div className="max-w-4xl mx-auto">
-                <h2 className="text-4xl font-bold text-center text-gray-900 dark:text-white mb-12">About Me</h2>
-                <div className="grid md:grid-cols-2 gap-12 items-center">
+                <h2 className="text-3xl sm:text-4xl font-bold text-center text-gray-900 dark:text-white mb-8 sm:mb-12">
+                  About Me
+                </h2>
+                <div className="grid md:grid-cols-2 gap-8 sm:gap-12 items-center">
                   <div className="space-y-6">
-                    <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
+                    <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
                       I am a detail-oriented and motivated engineering graduate with strong analytical and programming
                       skills. Proficient in Python, SQL, R, and C#, with a keen interest in data analysis, software
                       development, and problem-solving.
                     </p>
-                    <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
+                    <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
                       Known for a fast-learning curve and adaptability, I am eager to apply technical knowledge in a
                       professional setting and contribute meaningfully to innovative projects. Committed to continuous
                       learning and development in the tech industry.
                     </p>
-                    <div className="flex space-x-4">
+                    <div className="flex flex-wrap gap-3">
                       <Button
                         onClick={() => setActiveSection("skills")}
                         className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700"
@@ -260,32 +321,36 @@ export default function Portfolio() {
         {/* Education Section */}
         {activeSection === "education" && (
           <section className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-800">
-            <div className="container mx-auto px-6 py-20">
+            <div className="container mx-auto px-4 sm:px-6 py-16 sm:py-20">
               <div className="max-w-4xl mx-auto">
-                <h2 className="text-4xl font-bold text-center text-gray-900 dark:text-white mb-12">Education</h2>
+                <h2 className="text-3xl sm:text-4xl font-bold text-center text-gray-900 dark:text-white mb-8 sm:mb-12">
+                  Education
+                </h2>
                 <div className="flex justify-center">
                   <Card className="bg-white dark:bg-gray-900 shadow-lg max-w-2xl w-full border-gray-200 dark:border-gray-700">
                     <CardHeader className="text-center">
-                      <CardTitle className="text-3xl text-blue-600 dark:text-blue-400 mb-2">
+                      <CardTitle className="text-2xl sm:text-3xl text-blue-600 dark:text-blue-400 mb-2">
                         Master of Information Technology
                       </CardTitle>
-                      <CardDescription className="text-xl font-medium text-gray-700 dark:text-gray-300">
+                      <CardDescription className="text-lg sm:text-xl font-medium text-gray-700 dark:text-gray-300">
                         Data Science Major
                       </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-6">
-                      <div className="grid md:grid-cols-2 gap-4">
+                      <div className="grid sm:grid-cols-2 gap-4">
                         <div className="space-y-2">
                           <p className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">
                             Duration
                           </p>
-                          <p className="text-lg text-gray-900 dark:text-white">July 2024 – June 2026</p>
+                          <p className="text-base sm:text-lg text-gray-900 dark:text-white">July 2024 – June 2026</p>
                         </div>
                         <div className="space-y-2">
                           <p className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">
                             Location
                           </p>
-                          <p className="text-lg text-gray-900 dark:text-white">Brisbane, Queensland, Australia</p>
+                          <p className="text-base sm:text-lg text-gray-900 dark:text-white">
+                            Brisbane, Queensland, Australia
+                          </p>
                         </div>
                       </div>
                       <div className="space-y-2">
@@ -297,7 +362,7 @@ export default function Portfolio() {
                         </Badge>
                       </div>
                       <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
-                        <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                        <p className="text-base text-gray-600 dark:text-gray-300 leading-relaxed">
                           Pursuing advanced studies in data science, focusing on machine learning, statistical analysis,
                           and data visualization techniques to solve real-world problems.
                         </p>
@@ -313,13 +378,15 @@ export default function Portfolio() {
         {/* Skills Section */}
         {activeSection === "skills" && (
           <section className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900">
-            <div className="container mx-auto px-6 py-20">
+            <div className="container mx-auto px-4 sm:px-6 py-16 sm:py-20">
               <div className="max-w-4xl mx-auto">
-                <h2 className="text-4xl font-bold text-center text-gray-900 dark:text-white mb-12">Technical Skills</h2>
-                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <h2 className="text-3xl sm:text-4xl font-bold text-center text-gray-900 dark:text-white mb-8 sm:mb-12">
+                  Technical Skills
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
                   <Card className="text-center hover:shadow-lg transition-shadow bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
                     <CardHeader>
-                      <Code className="w-12 h-12 mx-auto text-blue-600 dark:text-blue-400 mb-2" />
+                      <Code className="w-10 h-10 sm:w-12 sm:h-12 mx-auto text-blue-600 dark:text-blue-400 mb-2" />
                       <CardTitle className="text-lg text-gray-900 dark:text-white">Programming</CardTitle>
                     </CardHeader>
                     <CardContent>
@@ -339,7 +406,7 @@ export default function Portfolio() {
 
                   <Card className="text-center hover:shadow-lg transition-shadow bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
                     <CardHeader>
-                      <Database className="w-12 h-12 mx-auto text-green-600 dark:text-green-400 mb-2" />
+                      <Database className="w-10 h-10 sm:w-12 sm:h-12 mx-auto text-green-600 dark:text-green-400 mb-2" />
                       <CardTitle className="text-lg text-gray-900 dark:text-white">Database</CardTitle>
                     </CardHeader>
                     <CardContent>
@@ -359,7 +426,7 @@ export default function Portfolio() {
 
                   <Card className="text-center hover:shadow-lg transition-shadow bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
                     <CardHeader>
-                      <BarChart3 className="w-12 h-12 mx-auto text-purple-600 dark:text-purple-400 mb-2" />
+                      <BarChart3 className="w-10 h-10 sm:w-12 sm:h-12 mx-auto text-purple-600 dark:text-purple-400 mb-2" />
                       <CardTitle className="text-lg text-gray-900 dark:text-white">Data Analysis</CardTitle>
                     </CardHeader>
                     <CardContent>
@@ -379,7 +446,7 @@ export default function Portfolio() {
 
                   <Card className="text-center hover:shadow-lg transition-shadow bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
                     <CardHeader>
-                      <Wrench className="w-12 h-12 mx-auto text-orange-600 dark:text-orange-400 mb-2" />
+                      <Wrench className="w-10 h-10 sm:w-12 sm:h-12 mx-auto text-orange-600 dark:text-orange-400 mb-2" />
                       <CardTitle className="text-lg text-gray-900 dark:text-white">Tools</CardTitle>
                     </CardHeader>
                     <CardContent>
@@ -405,30 +472,37 @@ export default function Portfolio() {
         {/* Projects Section */}
         {activeSection === "projects" && (
           <section className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-800">
-            <div className="container mx-auto px-6 py-20">
+            <div className="container mx-auto px-4 sm:px-6 py-16 sm:py-20">
               <div className="max-w-4xl mx-auto">
-                <h2 className="text-4xl font-bold text-center text-gray-900 dark:text-white mb-12">Featured Project</h2>
+                <h2 className="text-3xl sm:text-4xl font-bold text-center text-gray-900 dark:text-white mb-8 sm:mb-12">
+                  Featured Project
+                </h2>
                 <Card className="bg-white dark:bg-gray-900 shadow-lg border-gray-200 dark:border-gray-700">
                   <CardHeader>
-                    <CardTitle className="text-3xl text-blue-600 dark:text-blue-400 flex items-center justify-between">
-                      Numerical Board Game Suite
-                      <Badge variant="outline" className="text-lg px-3 py-1 dark:border-gray-600 dark:text-gray-300">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                      <CardTitle className="text-2xl sm:text-3xl text-blue-600 dark:text-blue-400">
+                        Numerical Board Game Suite
+                      </CardTitle>
+                      <Badge
+                        variant="outline"
+                        className="text-base sm:text-lg px-3 py-1 dark:border-gray-600 dark:text-gray-300 w-fit"
+                      >
                         C#
                       </Badge>
-                    </CardTitle>
-                    <CardDescription className="text-xl text-gray-700 dark:text-gray-300">
+                    </div>
+                    <CardDescription className="text-lg sm:text-xl text-gray-700 dark:text-gray-300 mt-2">
                       Console-based Application with Multiple 2-Player Board Games
                     </CardDescription>
                   </CardHeader>
-                  <CardContent className="space-y-8">
-                    <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
+                  <CardContent className="space-y-6 sm:space-y-8">
+                    <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
                       Developed a comprehensive console-based application in C# implementing multiple 2-player board
                       games including Tic-Tac-Toe, Gomoku, and Notakto.
                     </p>
 
                     <div className="space-y-4">
-                      <h4 className="text-xl font-semibold text-gray-900 dark:text-white">Key Features:</h4>
-                      <ul className="list-disc list-inside space-y-3 text-gray-600 dark:text-gray-300 text-lg">
+                      <h4 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white">Key Features:</h4>
+                      <ul className="list-disc list-inside space-y-2 sm:space-y-3 text-gray-600 dark:text-gray-300 text-base sm:text-lg">
                         <li>Applied Object-Oriented Programming (OOP) principles</li>
                         <li>Implemented Save/Load functionality for game persistence</li>
                         <li>Added Undo/Redo functionality for enhanced user experience</li>
@@ -437,7 +511,9 @@ export default function Portfolio() {
                     </div>
 
                     <div className="space-y-4">
-                      <h4 className="text-xl font-semibold text-gray-900 dark:text-white">Technologies Used:</h4>
+                      <h4 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white">
+                        Technologies Used:
+                      </h4>
                       <div className="flex flex-wrap gap-3">
                         <Badge
                           variant="secondary"
@@ -475,58 +551,62 @@ export default function Portfolio() {
         {/* Contact Section */}
         {activeSection === "contact" && (
           <section className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900">
-            <div className="container mx-auto px-6 py-20">
+            <div className="container mx-auto px-4 sm:px-6 py-16 sm:py-20">
               <div className="max-w-4xl mx-auto">
-                <h2 className="text-4xl font-bold text-center text-gray-900 dark:text-white mb-12">Get In Touch</h2>
-                <div className="grid md:grid-cols-2 gap-12">
-                  <div className="space-y-8">
+                <h2 className="text-3xl sm:text-4xl font-bold text-center text-gray-900 dark:text-white mb-8 sm:mb-12">
+                  Get In Touch
+                </h2>
+                <div className="grid md:grid-cols-2 gap-8 sm:gap-12">
+                  <div className="space-y-6 sm:space-y-8">
                     <div>
-                      <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Let's Connect</h3>
-                      <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
+                      <h3 className="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4">
+                        Let's Connect
+                      </h3>
+                      <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
                         I'm always interested in discussing new opportunities, collaborations, or projects related to
                         data science and software development. Feel free to reach out!
                       </p>
                     </div>
 
-                    <div className="space-y-6">
+                    <div className="space-y-4 sm:space-y-6">
                       <div className="flex items-center space-x-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                        <Mail className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                        <Mail className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600 dark:text-blue-400 flex-shrink-0" />
                         <a
                           href="mailto:vklokeshvk@gmail.com"
-                          className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium"
+                          className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium text-sm sm:text-base break-all"
                         >
                           vklokeshvk@gmail.com
                         </a>
                       </div>
                       <div className="flex items-center space-x-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                        <Phone className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                        <Phone className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600 dark:text-blue-400 flex-shrink-0" />
                         <a
                           href="tel:+61422934518"
-                          className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium"
+                          className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium text-sm sm:text-base"
                         >
                           +61 422 934 518
                         </a>
                       </div>
                       <div className="flex items-center space-x-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                        <MapPin className="w-6 h-6 text-blue-600 dark:text-blue-400" />
-                        <span className="text-gray-700 dark:text-gray-300 font-medium">
+                        <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600 dark:text-blue-400 flex-shrink-0" />
+                        <span className="text-gray-700 dark:text-gray-300 font-medium text-sm sm:text-base">
                           Brisbane, Queensland, Australia
                         </span>
                       </div>
                       <div className="flex items-center space-x-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                        <Linkedin className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                        <Linkedin className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600 dark:text-blue-400 flex-shrink-0" />
                         <a
                           href="https://www.linkedin.com/in/lokesh-venkatesan-vk0706"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium"
+                          className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium text-sm sm:text-base break-all"
                         >
                           linkedin.com/in/lokesh-venkatesan-vk0706
                         </a>
                       </div>
                     </div>
 
-                    <div className="flex space-x-4">
+                    <div className="flex flex-wrap gap-3">
                       <Button
                         asChild
                         size="lg"
@@ -654,8 +734,8 @@ export default function Portfolio() {
       </div>
 
       {/* Footer */}
-      <footer className="bg-gray-900 dark:bg-gray-950 text-white py-8">
-        <div className="container mx-auto px-6">
+      <footer className="bg-gray-900 dark:bg-gray-950 text-white py-6 sm:py-8">
+        <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center">
             <p className="text-gray-400 dark:text-gray-500">© 2024 Lokesh Venkatesan. All rights reserved.</p>
           </div>

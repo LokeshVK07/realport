@@ -6,6 +6,7 @@ import "./globals.css"
 export const metadata: Metadata = {
   title: "Lokesh Venkatesan – Portfolio",
   description: "Projects • Resume • Data Science Portfolio • Available for Work",
+  viewport: "width=device-width, initial-scale=1, maximum-scale=1",
   openGraph: {
     title: "Lokesh Venkatesan – Portfolio",
     description: "Explore my featured projects, skills, and downloadable resume.",
