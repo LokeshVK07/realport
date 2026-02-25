@@ -2,59 +2,39 @@
 
 import type React from "react"
 import { useState, useEffect } from "react"
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Button,
-  IconButton,
-  Box,
-  Container,
-  Card,
-  CardContent,
-  Chip,
-  TextField,
-  Drawer,
-  List,
-  ListItemButton,
-  ListItemText,
-  ListItemIcon,
-  useMediaQuery,
-  Alert,
-  Divider,
-} from "@mui/material"
-import {
-  Home as HomeIcon,
-  Person as PersonIcon,
-  School as SchoolIcon,
-  Code as CodeIcon,
-  Build as BuildIcon,
-  Mail as MailIcon,
-  Menu as MenuIcon,
-  LinkedIn as LinkedInIcon,
-  Phone as PhoneIcon,
-  LocationOn as LocationIcon,
-  Description as DescriptionIcon,
-  DarkMode as DarkModeIcon,
-  LightMode as LightModeIcon,
-  Storage as StorageIcon,
-  BarChart as BarChartIcon,
-  Handyman as HandymanIcon,
-  Send as SendIcon,
-} from "@mui/icons-material"
-import { useTheme as useNextTheme } from "next-themes"
+import { useTheme } from "next-themes"
 import Image from "next/image"
+import {
+  Home,
+  User,
+  GraduationCap,
+  Code,
+  Wrench,
+  Mail,
+  Menu,
+  X,
+  Linkedin,
+  Phone,
+  MapPin,
+  FileText,
+  Sun,
+  Moon,
+  Database,
+  BarChart3,
+  Settings,
+  Send,
+} from "lucide-react"
 import { sendContactEmail } from "./actions/send-email"
 
 type ActiveSection = "home" | "about" | "education" | "skills" | "projects" | "contact"
 
 const navItems: { key: ActiveSection; label: string; icon: React.ReactNode }[] = [
-  { key: "home", label: "Home", icon: <HomeIcon fontSize="small" /> },
-  { key: "about", label: "About", icon: <PersonIcon fontSize="small" /> },
-  { key: "education", label: "Education", icon: <SchoolIcon fontSize="small" /> },
-  { key: "skills", label: "Skills", icon: <CodeIcon fontSize="small" /> },
-  { key: "projects", label: "Projects", icon: <BuildIcon fontSize="small" /> },
-  { key: "contact", label: "Contact", icon: <MailIcon fontSize="small" /> },
+  { key: "home", label: "Home", icon: <Home size={14} /> },
+  { key: "about", label: "About", icon: <User size={14} /> },
+  { key: "education", label: "Education", icon: <GraduationCap size={14} /> },
+  { key: "skills", label: "Skills", icon: <Code size={14} /> },
+  { key: "projects", label: "Projects", icon: <Wrench size={14} /> },
+  { key: "contact", label: "Contact", icon: <Mail size={14} /> },
 ]
 
 export default function Portfolio() {
@@ -62,9 +42,8 @@ export default function Portfolio() {
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitMessage, setSubmitMessage] = useState<{ type: "success" | "error"; text: string } | null>(null)
-  const { theme, setTheme } = useNextTheme()
+  const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
-  const isMobile = useMediaQuery("(max-width:768px)")
 
   useEffect(() => {
     setMounted(true)
@@ -104,753 +83,501 @@ export default function Portfolio() {
     setIsSubmitting(false)
   }
 
-  // Shared styles
-  const bg = isDark ? "#111827" : "#fff"
-  const bgAlt = isDark ? "#1f2937" : "#f8fafc"
-  const textPrimary = isDark ? "#f3f4f6" : "#1e293b"
-  const textSecondary = isDark ? "#9ca3af" : "#64748b"
-  const blue = "#2563eb"
-  const blueLight = isDark ? "rgba(37,99,235,0.15)" : "#eff6ff"
-  const border = isDark ? "#374151" : "#e2e8f0"
-  const cardBg = isDark ? "#1f2937" : "#fff"
-  const inputBg = isDark ? "#374151" : "#fff"
-
-  const sectionWrapper = {
-    minHeight: "calc(100vh - 56px)",
-    display: "flex",
-    alignItems: "center",
-    py: { xs: 4, md: 6 },
-  }
+  const skillCategories = [
+    { title: "Programming", icon: <Code size={18} />, skills: technicalSkills.programming },
+    { title: "Database", icon: <Database size={18} />, skills: technicalSkills.database },
+    { title: "Data Analysis", icon: <BarChart3 size={18} />, skills: technicalSkills.dataAnalysis },
+    { title: "Tools", icon: <Settings size={18} />, skills: technicalSkills.tools },
+  ]
 
   return (
-    <Box sx={{ minHeight: "100vh", bgcolor: bg, transition: "background-color 0.2s" }}>
+    <div className="min-h-screen bg-background text-foreground transition-colors duration-200">
       {/* App Bar */}
-      <AppBar
-        position="fixed"
-        elevation={0}
-        sx={{
-          bgcolor: isDark ? "rgba(17,24,39,0.9)" : "rgba(255,255,255,0.9)",
-          backdropFilter: "blur(8px)",
-          borderBottom: `1px solid ${border}`,
-        }}
-      >
-        <Toolbar variant="dense" sx={{ px: { xs: 1.5, md: 3 }, minHeight: 48 }}>
-          <Typography
-            variant="subtitle1"
-            sx={{
-              fontWeight: 700,
-              color: textPrimary,
-              fontSize: "0.875rem",
-              flexGrow: { xs: 1, md: 0 },
-              mr: { md: 3 },
-            }}
-          >
-            Lokesh Venkatesan
-          </Typography>
+      <header className="fixed top-0 left-0 right-0 z-50 h-12 border-b border-border bg-background/90 backdrop-blur-md">
+        <div className="flex h-full items-center px-3 md:px-6">
+          <span className="text-sm font-bold flex-1 md:flex-none md:mr-6">Lokesh Venkatesan</span>
 
           {/* Desktop Nav */}
-          {!isMobile && (
-            <Box sx={{ display: "flex", gap: 0.5, flexGrow: 1 }}>
-              {navItems.map((item) => (
-                <Button
-                  key={item.key}
-                  size="small"
-                  startIcon={item.icon}
-                  onClick={() => navigate(item.key)}
-                  sx={{
-                    textTransform: "none",
-                    fontSize: "0.8rem",
-                    px: 1.5,
-                    py: 0.5,
-                    borderRadius: 1,
-                    color: activeSection === item.key ? "#fff" : textSecondary,
-                    bgcolor: activeSection === item.key ? blue : "transparent",
-                    "&:hover": {
-                      bgcolor: activeSection === item.key ? blue : blueLight,
-                    },
-                  }}
-                >
-                  {item.label}
-                </Button>
-              ))}
-            </Box>
-          )}
+          <nav className="hidden md:flex items-center gap-1 flex-1">
+            {navItems.map((item) => (
+              <button
+                key={item.key}
+                onClick={() => navigate(item.key)}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded text-xs transition-colors ${
+                  activeSection === item.key
+                    ? "bg-primary text-primary-foreground"
+                    : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                }`}
+              >
+                {item.icon}
+                {item.label}
+              </button>
+            ))}
+          </nav>
 
           {/* Theme toggle */}
           {mounted && (
-            <IconButton
-              size="small"
+            <button
               onClick={() => setTheme(isDark ? "light" : "dark")}
-              sx={{ color: textSecondary, ml: 1 }}
+              className="p-1.5 rounded text-muted-foreground hover:text-foreground transition-colors"
+              aria-label="Toggle theme"
             >
-              {isDark ? <LightModeIcon fontSize="small" /> : <DarkModeIcon fontSize="small" />}
-            </IconButton>
+              {isDark ? <Sun size={16} /> : <Moon size={16} />}
+            </button>
           )}
 
           {/* Mobile hamburger */}
-          {isMobile && (
-            <IconButton size="small" onClick={() => setDrawerOpen(true)} sx={{ color: textSecondary, ml: 0.5 }}>
-              <MenuIcon fontSize="small" />
-            </IconButton>
-          )}
-        </Toolbar>
-      </AppBar>
+          <button
+            className="md:hidden p-1.5 ml-1 rounded text-muted-foreground hover:text-foreground transition-colors"
+            onClick={() => setDrawerOpen(true)}
+            aria-label="Open menu"
+          >
+            <Menu size={18} />
+          </button>
+        </div>
+      </header>
 
-      {/* Mobile Drawer */}
-      <Drawer
-        anchor="right"
-        open={drawerOpen}
-        onClose={() => setDrawerOpen(false)}
-        PaperProps={{ sx: { width: 220, bgcolor: cardBg } }}
-      >
-        <Box sx={{ pt: 1 }}>
-          <List dense>
-            {navItems.map((item) => (
-              <ListItemButton
-                key={item.key}
-                selected={activeSection === item.key}
-                onClick={() => navigate(item.key)}
-                sx={{
-                  py: 1,
-                  mx: 1,
-                  borderRadius: 1,
-                  "&.Mui-selected": { bgcolor: blueLight, color: blue },
-                  "&.Mui-selected:hover": { bgcolor: blueLight },
-                }}
+      {/* Mobile Drawer Overlay */}
+      {drawerOpen && (
+        <div className="fixed inset-0 z-50 md:hidden">
+          <div className="absolute inset-0 bg-black/40" onClick={() => setDrawerOpen(false)} />
+          <div className="absolute right-0 top-0 bottom-0 w-56 bg-card border-l border-border shadow-lg">
+            <div className="flex justify-end p-2">
+              <button
+                onClick={() => setDrawerOpen(false)}
+                className="p-1.5 rounded text-muted-foreground hover:text-foreground"
+                aria-label="Close menu"
               >
-                <ListItemIcon sx={{ minWidth: 32, color: activeSection === item.key ? blue : textSecondary }}>
-                  {item.icon}
-                </ListItemIcon>
-                <ListItemText
-                  primary={item.label}
-                  primaryTypographyProps={{
-                    fontSize: "0.8rem",
-                    fontWeight: activeSection === item.key ? 600 : 400,
-                    color: activeSection === item.key ? blue : textPrimary,
-                  }}
-                />
-              </ListItemButton>
-            ))}
-          </List>
-        </Box>
-      </Drawer>
+                <X size={18} />
+              </button>
+            </div>
+            <nav className="px-2">
+              {navItems.map((item) => (
+                <button
+                  key={item.key}
+                  onClick={() => navigate(item.key)}
+                  className={`flex w-full items-center gap-2.5 px-3 py-2 rounded text-xs transition-colors mb-0.5 ${
+                    activeSection === item.key
+                      ? "bg-primary/10 text-primary font-semibold"
+                      : "text-foreground hover:bg-accent"
+                  }`}
+                >
+                  <span className={activeSection === item.key ? "text-primary" : "text-muted-foreground"}>
+                    {item.icon}
+                  </span>
+                  {item.label}
+                </button>
+              ))}
+            </nav>
+          </div>
+        </div>
+      )}
 
       {/* Content */}
-      <Box sx={{ pt: "48px" }}>
+      <main className="pt-12">
         {/* HOME */}
         {activeSection === "home" && (
-          <Box sx={{ ...sectionWrapper, bgcolor: bgAlt }}>
-            <Container maxWidth="md" sx={{ px: { xs: 2, md: 3 } }}>
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: { xs: "column-reverse", md: "row" },
-                  alignItems: "center",
-                  gap: { xs: 3, md: 5 },
-                }}
-              >
-                <Box sx={{ flex: 1, textAlign: { xs: "center", md: "left" } }}>
-                  <Typography
-                    variant="h4"
-                    sx={{
-                      fontWeight: 800,
-                      color: textPrimary,
-                      fontSize: { xs: "1.5rem", md: "2rem" },
-                      lineHeight: 1.2,
-                      mb: 0.5,
-                    }}
-                  >
-                    Lokesh
-                  </Typography>
-                  <Typography
-                    variant="h4"
-                    sx={{
-                      fontWeight: 800,
-                      color: blue,
-                      fontSize: { xs: "1.5rem", md: "2rem" },
-                      lineHeight: 1.2,
-                      mb: 1,
-                    }}
-                  >
-                    Venkatesan
-                  </Typography>
-                  <Typography sx={{ color: textSecondary, fontSize: "0.9rem", mb: 1 }}>
-                    Data Science Student & Aspiring Engineer
-                  </Typography>
-                  <Typography sx={{ color: textSecondary, fontSize: "0.8rem", mb: 0.5 }}>
-                    Engineering graduate with strong analytical and programming skills, currently pursuing
-                    {"Master's"} in Data Science.
-                  </Typography>
-                  <Box sx={{ display: "flex", alignItems: "center", justifyContent: { xs: "center", md: "flex-start" }, gap: 0.5, mb: 2, color: textSecondary }}>
-                    <LocationIcon sx={{ fontSize: 14 }} />
-                    <Typography sx={{ fontSize: "0.75rem" }}>Brisbane, Queensland, Australia</Typography>
-                  </Box>
-
-                  <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: { xs: "center", md: "flex-start" }, gap: 1 }}>
-                    <Button
-                      variant="contained"
-                      size="small"
+          <section className="min-h-[calc(100vh-3rem)] flex items-center bg-secondary/30">
+            <div className="w-full max-w-2xl mx-auto px-4 md:px-6 py-8 md:py-12">
+              <div className="flex flex-col-reverse md:flex-row items-center gap-6 md:gap-10">
+                <div className="flex-1 text-center md:text-left">
+                  <h1 className="text-2xl md:text-3xl font-extrabold leading-tight">Lokesh</h1>
+                  <h1 className="text-2xl md:text-3xl font-extrabold leading-tight text-primary mb-1">Venkatesan</h1>
+                  <p className="text-muted-foreground text-sm mb-1">Data Science Student & Aspiring Engineer</p>
+                  <p className="text-muted-foreground text-xs mb-1">
+                    Engineering graduate with strong analytical and programming skills, currently pursuing Master{"'"}s
+                    in Data Science.
+                  </p>
+                  <div className="flex items-center justify-center md:justify-start gap-1 text-muted-foreground mb-4">
+                    <MapPin size={12} />
+                    <span className="text-xs">Brisbane, Queensland, Australia</span>
+                  </div>
+                  <div className="flex flex-wrap justify-center md:justify-start gap-2">
+                    <button
                       onClick={() => navigate("contact")}
-                      sx={{
-                        bgcolor: blue,
-                        textTransform: "none",
-                        fontSize: "0.75rem",
-                        px: 2,
-                        "&:hover": { bgcolor: "#1d4ed8" },
-                      }}
+                      className="px-3 py-1.5 rounded bg-primary text-primary-foreground text-xs font-medium hover:bg-primary/90 transition-colors"
                     >
                       Get In Touch
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      size="small"
-                      startIcon={<LinkedInIcon sx={{ fontSize: 14 }} />}
+                    </button>
+                    <a
                       href="https://www.linkedin.com/in/lokesh-venkatesan-vk0706"
                       target="_blank"
-                      sx={{
-                        textTransform: "none",
-                        fontSize: "0.75rem",
-                        px: 2,
-                        borderColor: border,
-                        color: textPrimary,
-                        "&:hover": { borderColor: blue, color: blue },
-                      }}
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded border border-border text-xs font-medium hover:border-primary hover:text-primary transition-colors"
                     >
+                      <Linkedin size={12} />
                       LinkedIn
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      size="small"
-                      startIcon={<DescriptionIcon sx={{ fontSize: 14 }} />}
+                    </a>
+                    <a
                       href="/resume.pdf"
                       target="_blank"
-                      sx={{
-                        textTransform: "none",
-                        fontSize: "0.75rem",
-                        px: 2,
-                        borderColor: border,
-                        color: textPrimary,
-                        "&:hover": { borderColor: blue, color: blue },
-                      }}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded border border-border text-xs font-medium hover:border-primary hover:text-primary transition-colors"
                     >
+                      <FileText size={12} />
                       Resume
-                    </Button>
-                  </Box>
-                </Box>
+                    </a>
+                  </div>
+                </div>
 
-                <Box sx={{ position: "relative", flexShrink: 0 }}>
-                  <Box
-                    sx={{
-                      width: { xs: 140, md: 200 },
-                      height: { xs: 140, md: 200 },
-                      borderRadius: "50%",
-                      overflow: "hidden",
-                      border: `3px solid ${isDark ? "#374151" : "#fff"}`,
-                      boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
-                    }}
-                  >
+                <div className="relative flex-shrink-0">
+                  <div className="w-32 h-32 md:w-44 md:h-44 rounded-full overflow-hidden border-[3px] border-background shadow-lg">
                     <Image
                       src="/lokesh-photo.jpg"
                       alt="Lokesh Venkatesan"
                       width={200}
                       height={200}
-                      style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                      className="w-full h-full object-cover"
                     />
-                  </Box>
-                  <Box
-                    sx={{
-                      position: "absolute",
-                      bottom: -4,
-                      right: -4,
-                      bgcolor: blue,
-                      color: "#fff",
-                      borderRadius: "50%",
-                      width: 28,
-                      height: 28,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <LinkedInIcon sx={{ fontSize: 16 }} />
-                  </Box>
-                </Box>
-              </Box>
-            </Container>
-          </Box>
+                  </div>
+                  <div className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-primary text-primary-foreground flex items-center justify-center">
+                    <Linkedin size={14} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
         )}
 
         {/* ABOUT */}
         {activeSection === "about" && (
-          <Box sx={{ ...sectionWrapper, bgcolor: bg }}>
-            <Container maxWidth="md" sx={{ px: { xs: 2, md: 3 } }}>
-              <Typography
-                variant="h5"
-                sx={{ fontWeight: 700, color: textPrimary, textAlign: "center", mb: 3, fontSize: { xs: "1.2rem", md: "1.4rem" } }}
-              >
-                About Me
-              </Typography>
-              <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, gap: 3 }}>
-                <Box sx={{ flex: 1 }}>
-                  <Typography sx={{ color: textSecondary, fontSize: "0.8rem", lineHeight: 1.7, mb: 1.5 }}>
+          <section className="min-h-[calc(100vh-3rem)] flex items-center">
+            <div className="w-full max-w-2xl mx-auto px-4 md:px-6 py-8 md:py-12">
+              <h2 className="text-lg md:text-xl font-bold text-center mb-6">About Me</h2>
+              <div className="flex flex-col md:flex-row gap-5">
+                <div className="flex-1">
+                  <p className="text-muted-foreground text-xs leading-relaxed mb-3">
                     I am a detail-oriented and motivated engineering graduate with strong analytical and programming
                     skills. Proficient in Python, SQL, R, and C#, with a keen interest in data analysis, software
                     development, and problem-solving.
-                  </Typography>
-                  <Typography sx={{ color: textSecondary, fontSize: "0.8rem", lineHeight: 1.7, mb: 2 }}>
+                  </p>
+                  <p className="text-muted-foreground text-xs leading-relaxed mb-4">
                     Known for a fast-learning curve and adaptability, I am eager to apply technical knowledge in a
                     professional setting and contribute meaningfully to innovative projects. Committed to continuous
                     learning and development in the tech industry.
-                  </Typography>
-                  <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
-                    <Button
-                      variant="contained"
-                      size="small"
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    <button
                       onClick={() => navigate("skills")}
-                      sx={{ bgcolor: blue, textTransform: "none", fontSize: "0.75rem", "&:hover": { bgcolor: "#1d4ed8" } }}
+                      className="px-3 py-1.5 rounded bg-primary text-primary-foreground text-xs font-medium hover:bg-primary/90 transition-colors"
                     >
                       View Skills
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      size="small"
+                    </button>
+                    <button
                       onClick={() => navigate("projects")}
-                      sx={{ textTransform: "none", fontSize: "0.75rem", borderColor: border, color: textPrimary, "&:hover": { borderColor: blue, color: blue } }}
+                      className="px-3 py-1.5 rounded border border-border text-xs font-medium hover:border-primary hover:text-primary transition-colors"
                     >
                       See Projects
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      size="small"
-                      startIcon={<DescriptionIcon sx={{ fontSize: 14 }} />}
+                    </button>
+                    <a
                       href="/resume.pdf"
                       download="Lokesh_Venkatesan_Resume.pdf"
-                      sx={{ textTransform: "none", fontSize: "0.75rem", borderColor: border, color: textPrimary, "&:hover": { borderColor: blue, color: blue } }}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded border border-border text-xs font-medium hover:border-primary hover:text-primary transition-colors"
                     >
+                      <FileText size={12} />
                       Download Resume
-                    </Button>
-                  </Box>
-                </Box>
+                    </a>
+                  </div>
+                </div>
 
-                <Card
-                  variant="outlined"
-                  sx={{
-                    minWidth: { xs: "100%", md: 220 },
-                    bgcolor: bgAlt,
-                    borderColor: border,
-                    borderRadius: 2,
-                  }}
-                >
-                  <CardContent sx={{ p: 2, "&:last-child": { pb: 2 } }}>
-                    <Typography sx={{ fontWeight: 600, color: textPrimary, fontSize: "0.8rem", mb: 1.5 }}>
-                      Languages
-                    </Typography>
-                    {languages.map((lang, i) => (
-                      <Box key={i} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: i < languages.length - 1 ? 1 : 0 }}>
-                        <Typography sx={{ color: textSecondary, fontSize: "0.8rem" }}>{lang.language}</Typography>
-                        <Chip label={lang.level} size="small" variant="outlined" sx={{ fontSize: "0.7rem", height: 22, borderColor: border, color: textSecondary }} />
-                      </Box>
-                    ))}
-                  </CardContent>
-                </Card>
-              </Box>
-            </Container>
-          </Box>
+                <div className="w-full md:w-52 rounded-lg border border-border bg-secondary/30 p-3">
+                  <h3 className="text-xs font-semibold mb-3">Languages</h3>
+                  {languages.map((lang, i) => (
+                    <div
+                      key={i}
+                      className={`flex justify-between items-center ${i < languages.length - 1 ? "mb-2" : ""}`}
+                    >
+                      <span className="text-muted-foreground text-xs">{lang.language}</span>
+                      <span className="text-[0.65rem] px-2 py-0.5 rounded-full border border-border text-muted-foreground">
+                        {lang.level}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
         )}
 
         {/* EDUCATION */}
         {activeSection === "education" && (
-          <Box sx={{ ...sectionWrapper, bgcolor: bgAlt }}>
-            <Container maxWidth="sm" sx={{ px: { xs: 2, md: 3 } }}>
-              <Typography
-                variant="h5"
-                sx={{ fontWeight: 700, color: textPrimary, textAlign: "center", mb: 3, fontSize: { xs: "1.2rem", md: "1.4rem" } }}
-              >
-                Education
-              </Typography>
-              <Card variant="outlined" sx={{ bgcolor: cardBg, borderColor: border, borderRadius: 2 }}>
-                <CardContent sx={{ p: { xs: 2, md: 3 }, "&:last-child": { pb: 2 } }}>
-                  <Typography sx={{ fontWeight: 700, color: blue, fontSize: "1rem", mb: 0.25 }}>
-                    Master of Information Technology
-                  </Typography>
-                  <Typography sx={{ fontWeight: 500, color: textPrimary, fontSize: "0.85rem", mb: 1.5 }}>
-                    Data Science Major
-                  </Typography>
+          <section className="min-h-[calc(100vh-3rem)] flex items-center bg-secondary/30">
+            <div className="w-full max-w-xl mx-auto px-4 md:px-6 py-8 md:py-12">
+              <h2 className="text-lg md:text-xl font-bold text-center mb-6">Education</h2>
+              <div className="rounded-lg border border-border bg-card p-4 md:p-5">
+                <h3 className="text-base font-bold text-primary mb-0.5">Master of Information Technology</h3>
+                <p className="text-sm font-medium mb-3">Data Science Major</p>
 
-                  <Box sx={{ display: "flex", flexDirection: { xs: "column", sm: "row" }, gap: 2, mb: 1.5 }}>
-                    <Box>
-                      <Typography sx={{ fontSize: "0.65rem", fontWeight: 600, color: textSecondary, textTransform: "uppercase", letterSpacing: 0.5 }}>
-                        Duration
-                      </Typography>
-                      <Typography sx={{ fontSize: "0.8rem", color: textPrimary }}>July 2024 - June 2026</Typography>
-                    </Box>
-                    <Box>
-                      <Typography sx={{ fontSize: "0.65rem", fontWeight: 600, color: textSecondary, textTransform: "uppercase", letterSpacing: 0.5 }}>
-                        Location
-                      </Typography>
-                      <Typography sx={{ fontSize: "0.8rem", color: textPrimary }}>Brisbane, Queensland, Australia</Typography>
-                    </Box>
-                  </Box>
+                <div className="flex flex-col sm:flex-row gap-4 mb-3">
+                  <div>
+                    <span className="block text-[0.6rem] font-semibold text-muted-foreground uppercase tracking-wider">
+                      Duration
+                    </span>
+                    <span className="text-xs">July 2024 - June 2026</span>
+                  </div>
+                  <div>
+                    <span className="block text-[0.6rem] font-semibold text-muted-foreground uppercase tracking-wider">
+                      Location
+                    </span>
+                    <span className="text-xs">Brisbane, Queensland, Australia</span>
+                  </div>
+                </div>
 
-                  <Box sx={{ mb: 1.5 }}>
-                    <Typography sx={{ fontSize: "0.65rem", fontWeight: 600, color: textSecondary, textTransform: "uppercase", letterSpacing: 0.5, mb: 0.5 }}>
-                      Status
-                    </Typography>
-                    <Chip
-                      label="Currently Enrolled"
-                      size="small"
-                      sx={{ bgcolor: blueLight, color: blue, fontSize: "0.7rem", fontWeight: 600, height: 24 }}
-                    />
-                  </Box>
+                <div className="mb-3">
+                  <span className="block text-[0.6rem] font-semibold text-muted-foreground uppercase tracking-wider mb-1">
+                    Status
+                  </span>
+                  <span className="inline-block text-[0.65rem] font-semibold px-2 py-0.5 rounded-full bg-primary/10 text-primary">
+                    Currently Enrolled
+                  </span>
+                </div>
 
-                  <Divider sx={{ borderColor: border, my: 1.5 }} />
+                <hr className="border-border my-3" />
 
-                  <Typography sx={{ color: textSecondary, fontSize: "0.8rem", lineHeight: 1.6 }}>
-                    Pursuing advanced studies in data science, focusing on machine learning, statistical analysis,
-                    and data visualization techniques to solve real-world problems.
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Container>
-          </Box>
+                <p className="text-muted-foreground text-xs leading-relaxed">
+                  Pursuing advanced studies in data science, focusing on machine learning, statistical analysis, and data
+                  visualization techniques to solve real-world problems.
+                </p>
+              </div>
+            </div>
+          </section>
         )}
 
         {/* SKILLS */}
         {activeSection === "skills" && (
-          <Box sx={{ ...sectionWrapper, bgcolor: bg }}>
-            <Container maxWidth="md" sx={{ px: { xs: 2, md: 3 } }}>
-              <Typography
-                variant="h5"
-                sx={{ fontWeight: 700, color: textPrimary, textAlign: "center", mb: 3, fontSize: { xs: "1.2rem", md: "1.4rem" } }}
-              >
-                Technical Skills
-              </Typography>
-              <Box
-                sx={{
-                  display: "grid",
-                  gridTemplateColumns: { xs: "1fr 1fr", md: "repeat(4, 1fr)" },
-                  gap: 2,
-                }}
-              >
-                {[
-                  { title: "Programming", icon: <CodeIcon sx={{ fontSize: 20, color: blue }} />, skills: technicalSkills.programming },
-                  { title: "Database", icon: <StorageIcon sx={{ fontSize: 20, color: blue }} />, skills: technicalSkills.database },
-                  { title: "Data Analysis", icon: <BarChartIcon sx={{ fontSize: 20, color: blue }} />, skills: technicalSkills.dataAnalysis },
-                  { title: "Tools", icon: <HandymanIcon sx={{ fontSize: 20, color: blue }} />, skills: technicalSkills.tools },
-                ].map((cat) => (
-                  <Card
+          <section className="min-h-[calc(100vh-3rem)] flex items-center">
+            <div className="w-full max-w-2xl mx-auto px-4 md:px-6 py-8 md:py-12">
+              <h2 className="text-lg md:text-xl font-bold text-center mb-6">Technical Skills</h2>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                {skillCategories.map((cat) => (
+                  <div
                     key={cat.title}
-                    variant="outlined"
-                    sx={{
-                      bgcolor: cardBg,
-                      borderColor: border,
-                      borderRadius: 2,
-                      textAlign: "center",
-                      transition: "box-shadow 0.2s",
-                      "&:hover": { boxShadow: "0 2px 12px rgba(0,0,0,0.08)" },
-                    }}
+                    className="rounded-lg border border-border bg-card text-center p-3 hover:shadow-md transition-shadow"
                   >
-                    <CardContent sx={{ p: 2, "&:last-child": { pb: 2 } }}>
-                      {cat.icon}
-                      <Typography sx={{ fontWeight: 600, color: textPrimary, fontSize: "0.8rem", mt: 0.5, mb: 1 }}>
-                        {cat.title}
-                      </Typography>
-                      <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
-                        {cat.skills.map((skill) => (
-                          <Chip
-                            key={skill}
-                            label={skill}
-                            size="small"
-                            sx={{
-                              bgcolor: blueLight,
-                              color: blue,
-                              fontSize: "0.7rem",
-                              fontWeight: 500,
-                              height: 24,
-                              width: "100%",
-                              "& .MuiChip-label": { px: 1 },
-                            }}
-                          />
-                        ))}
-                      </Box>
-                    </CardContent>
-                  </Card>
+                    <div className="text-primary mb-1 flex justify-center">{cat.icon}</div>
+                    <h3 className="text-xs font-semibold mb-2">{cat.title}</h3>
+                    <div className="flex flex-col gap-1">
+                      {cat.skills.map((skill) => (
+                        <span
+                          key={skill}
+                          className="text-[0.65rem] font-medium px-2 py-1 rounded bg-primary/10 text-primary"
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 ))}
-              </Box>
-            </Container>
-          </Box>
+              </div>
+            </div>
+          </section>
         )}
 
         {/* PROJECTS */}
         {activeSection === "projects" && (
-          <Box sx={{ ...sectionWrapper, bgcolor: bgAlt }}>
-            <Container maxWidth="md" sx={{ px: { xs: 2, md: 3 } }}>
-              <Typography
-                variant="h5"
-                sx={{ fontWeight: 700, color: textPrimary, textAlign: "center", mb: 3, fontSize: { xs: "1.2rem", md: "1.4rem" } }}
-              >
-                Featured Project
-              </Typography>
-              <Card variant="outlined" sx={{ bgcolor: cardBg, borderColor: border, borderRadius: 2 }}>
-                <CardContent sx={{ p: { xs: 2, md: 3 }, "&:last-child": { pb: 2 } }}>
-                  <Box sx={{ display: "flex", flexDirection: { xs: "column", sm: "row" }, justifyContent: "space-between", alignItems: { sm: "center" }, gap: 1, mb: 1 }}>
-                    <Typography sx={{ fontWeight: 700, color: blue, fontSize: { xs: "1rem", md: "1.1rem" } }}>
-                      Numerical Board Game Suite
-                    </Typography>
-                    <Chip label="C#" size="small" variant="outlined" sx={{ fontSize: "0.7rem", borderColor: border, color: textSecondary, width: "fit-content" }} />
-                  </Box>
-                  <Typography sx={{ color: textSecondary, fontSize: "0.8rem", mb: 1.5 }}>
-                    Console-based Application with Multiple 2-Player Board Games
-                  </Typography>
-                  <Typography sx={{ color: textSecondary, fontSize: "0.8rem", lineHeight: 1.6, mb: 2 }}>
-                    Developed a comprehensive console-based application in C# implementing multiple 2-player board
-                    games including Tic-Tac-Toe, Gomoku, and Notakto.
-                  </Typography>
+          <section className="min-h-[calc(100vh-3rem)] flex items-center bg-secondary/30">
+            <div className="w-full max-w-2xl mx-auto px-4 md:px-6 py-8 md:py-12">
+              <h2 className="text-lg md:text-xl font-bold text-center mb-6">Featured Project</h2>
+              <div className="rounded-lg border border-border bg-card p-4 md:p-5">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 mb-2">
+                  <h3 className="text-base font-bold text-primary">Numerical Board Game Suite</h3>
+                  <span className="text-[0.65rem] px-2 py-0.5 rounded-full border border-border text-muted-foreground w-fit">
+                    C#
+                  </span>
+                </div>
+                <p className="text-muted-foreground text-xs mb-3">
+                  Console-based Application with Multiple 2-Player Board Games
+                </p>
+                <p className="text-muted-foreground text-xs leading-relaxed mb-4">
+                  Developed a comprehensive console-based application in C# implementing multiple 2-player board games
+                  including Tic-Tac-Toe, Gomoku, and Notakto.
+                </p>
 
-                  <Typography sx={{ fontWeight: 600, color: textPrimary, fontSize: "0.8rem", mb: 1 }}>
-                    Key Features:
-                  </Typography>
-                  <Box component="ul" sx={{ pl: 2, mb: 2, "& li": { color: textSecondary, fontSize: "0.8rem", lineHeight: 1.8 } }}>
-                    <li>Applied Object-Oriented Programming (OOP) principles</li>
-                    <li>Implemented Save/Load functionality for game persistence</li>
-                    <li>Added Undo/Redo functionality for enhanced user experience</li>
-                    <li>Designed flexible architecture to allow easy integration of new games</li>
-                  </Box>
+                <h4 className="text-xs font-semibold mb-1.5">Key Features:</h4>
+                <ul className="list-disc pl-4 mb-4 space-y-1">
+                  <li className="text-muted-foreground text-xs">
+                    Applied Object-Oriented Programming (OOP) principles
+                  </li>
+                  <li className="text-muted-foreground text-xs">
+                    Implemented Save/Load functionality for game persistence
+                  </li>
+                  <li className="text-muted-foreground text-xs">
+                    Added Undo/Redo functionality for enhanced user experience
+                  </li>
+                  <li className="text-muted-foreground text-xs">
+                    Designed flexible architecture to allow easy integration of new games
+                  </li>
+                </ul>
 
-                  <Typography sx={{ fontWeight: 600, color: textPrimary, fontSize: "0.8rem", mb: 1 }}>
-                    Technologies Used:
-                  </Typography>
-                  <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.75 }}>
-                    {["C#", "OOP", "Console Application", "Game Development"].map((t) => (
-                      <Chip
-                        key={t}
-                        label={t}
-                        size="small"
-                        sx={{ bgcolor: blueLight, color: blue, fontSize: "0.7rem", fontWeight: 500, height: 24 }}
-                      />
-                    ))}
-                  </Box>
-                </CardContent>
-              </Card>
-            </Container>
-          </Box>
+                <h4 className="text-xs font-semibold mb-1.5">Technologies Used:</h4>
+                <div className="flex flex-wrap gap-1.5">
+                  {["C#", "OOP", "Console Application", "Game Development"].map((t) => (
+                    <span
+                      key={t}
+                      className="text-[0.65rem] font-medium px-2 py-0.5 rounded bg-primary/10 text-primary"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
         )}
 
         {/* CONTACT */}
         {activeSection === "contact" && (
-          <Box sx={{ ...sectionWrapper, bgcolor: bg }}>
-            <Container maxWidth="md" sx={{ px: { xs: 2, md: 3 } }}>
-              <Typography
-                variant="h5"
-                sx={{ fontWeight: 700, color: textPrimary, textAlign: "center", mb: 3, fontSize: { xs: "1.2rem", md: "1.4rem" } }}
-              >
-                Get In Touch
-              </Typography>
-              <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, gap: 3 }}>
-                {/* Left column */}
-                <Box sx={{ flex: 1 }}>
-                  <Typography sx={{ fontWeight: 600, color: textPrimary, fontSize: "0.9rem", mb: 0.5 }}>
-                    {"Let's Connect"}
-                  </Typography>
-                  <Typography sx={{ color: textSecondary, fontSize: "0.8rem", lineHeight: 1.6, mb: 2 }}>
+          <section className="min-h-[calc(100vh-3rem)] flex items-center">
+            <div className="w-full max-w-2xl mx-auto px-4 md:px-6 py-8 md:py-12">
+              <h2 className="text-lg md:text-xl font-bold text-center mb-6">Get In Touch</h2>
+              <div className="flex flex-col md:flex-row gap-5">
+                {/* Left */}
+                <div className="flex-1">
+                  <h3 className="text-sm font-semibold mb-1">{"Let's Connect"}</h3>
+                  <p className="text-muted-foreground text-xs leading-relaxed mb-4">
                     {"I'm always interested in discussing new opportunities, collaborations, or projects related to data science and software development."}
-                  </Typography>
+                  </p>
 
-                  <Box sx={{ display: "flex", flexDirection: "column", gap: 1, mb: 2 }}>
+                  <div className="flex flex-col gap-2 mb-4">
                     {[
-                      { icon: <MailIcon sx={{ fontSize: 16, color: blue }} />, text: "vklokeshvk@gmail.com", href: "mailto:vklokeshvk@gmail.com" },
-                      { icon: <PhoneIcon sx={{ fontSize: 16, color: blue }} />, text: "+61 422 934 518", href: "tel:+61422934518" },
-                      { icon: <LocationIcon sx={{ fontSize: 16, color: blue }} />, text: "Brisbane, Queensland, Australia" },
-                      { icon: <LinkedInIcon sx={{ fontSize: 16, color: blue }} />, text: "lokesh-venkatesan-vk0706", href: "https://www.linkedin.com/in/lokesh-venkatesan-vk0706" },
+                      {
+                        icon: <Mail size={14} />,
+                        text: "vklokeshvk@gmail.com",
+                        href: "mailto:vklokeshvk@gmail.com",
+                      },
+                      { icon: <Phone size={14} />, text: "+61 422 934 518", href: "tel:+61422934518" },
+                      { icon: <MapPin size={14} />, text: "Brisbane, Queensland, Australia" },
+                      {
+                        icon: <Linkedin size={14} />,
+                        text: "lokesh-venkatesan-vk0706",
+                        href: "https://www.linkedin.com/in/lokesh-venkatesan-vk0706",
+                      },
                     ].map((item, i) => (
-                      <Box
-                        key={i}
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 1.5,
-                          p: 1.5,
-                          bgcolor: bgAlt,
-                          borderRadius: 1.5,
-                        }}
-                      >
-                        {item.icon}
+                      <div key={i} className="flex items-center gap-3 p-2.5 rounded-md bg-secondary/50">
+                        <span className="text-primary">{item.icon}</span>
                         {item.href ? (
-                          <Typography
-                            component="a"
+                          <a
                             href={item.href}
                             target={item.href.startsWith("http") ? "_blank" : undefined}
                             rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                            sx={{
-                              color: textPrimary,
-                              fontSize: "0.75rem",
-                              textDecoration: "none",
-                              wordBreak: "break-all",
-                              "&:hover": { color: blue },
-                            }}
+                            className="text-xs break-all hover:text-primary transition-colors"
                           >
                             {item.text}
-                          </Typography>
+                          </a>
                         ) : (
-                          <Typography sx={{ color: textPrimary, fontSize: "0.75rem" }}>{item.text}</Typography>
+                          <span className="text-xs">{item.text}</span>
                         )}
-                      </Box>
+                      </div>
                     ))}
-                  </Box>
+                  </div>
 
-                  <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
-                    <Button
-                      variant="contained"
-                      size="small"
-                      startIcon={<LinkedInIcon sx={{ fontSize: 14 }} />}
+                  <div className="flex flex-wrap gap-2">
+                    <a
                       href="https://www.linkedin.com/in/lokesh-venkatesan-vk0706"
                       target="_blank"
-                      sx={{ bgcolor: blue, textTransform: "none", fontSize: "0.75rem", "&:hover": { bgcolor: "#1d4ed8" } }}
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-primary text-primary-foreground text-xs font-medium hover:bg-primary/90 transition-colors"
                     >
+                      <Linkedin size={12} />
                       Connect on LinkedIn
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      size="small"
-                      startIcon={<MailIcon sx={{ fontSize: 14 }} />}
+                    </a>
+                    <a
                       href="mailto:vklokeshvk@gmail.com"
-                      sx={{ textTransform: "none", fontSize: "0.75rem", borderColor: border, color: textPrimary, "&:hover": { borderColor: blue, color: blue } }}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded border border-border text-xs font-medium hover:border-primary hover:text-primary transition-colors"
                     >
+                      <Mail size={12} />
                       Send Email
-                    </Button>
-                  </Box>
-                </Box>
+                    </a>
+                  </div>
+                </div>
 
-                {/* Right column - form */}
-                <Card variant="outlined" sx={{ flex: 1, bgcolor: cardBg, borderColor: border, borderRadius: 2 }}>
-                  <CardContent sx={{ p: 2, "&:last-child": { pb: 2 } }}>
-                    <Typography sx={{ fontWeight: 600, color: textPrimary, fontSize: "0.85rem", mb: 0.25 }}>
-                      Send a Message
-                    </Typography>
-                    <Typography sx={{ color: textSecondary, fontSize: "0.7rem", mb: 2 }}>
-                      {"I'll get back to you as soon as possible"}
-                    </Typography>
-                    <form onSubmit={handleSubmit}>
-                      <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
-                        <TextField
-                          name="name"
-                          label="Name"
-                          size="small"
-                          required
-                          fullWidth
-                          placeholder="Your name"
-                          slotProps={{
-                            inputLabel: { sx: { fontSize: "0.8rem" } },
-                            input: { sx: { fontSize: "0.8rem", bgcolor: inputBg } },
-                          }}
-                          sx={{
-                            "& .MuiOutlinedInput-root": {
-                              "& fieldset": { borderColor: border },
-                              "&:hover fieldset": { borderColor: blue },
-                              "&.Mui-focused fieldset": { borderColor: blue },
-                            },
-                            "& .MuiInputLabel-root.Mui-focused": { color: blue },
-                          }}
-                        />
-                        <TextField
-                          name="email"
-                          label="Email"
-                          type="email"
-                          size="small"
-                          required
-                          fullWidth
-                          placeholder="your.email@example.com"
-                          slotProps={{
-                            inputLabel: { sx: { fontSize: "0.8rem" } },
-                            input: { sx: { fontSize: "0.8rem", bgcolor: inputBg } },
-                          }}
-                          sx={{
-                            "& .MuiOutlinedInput-root": {
-                              "& fieldset": { borderColor: border },
-                              "&:hover fieldset": { borderColor: blue },
-                              "&.Mui-focused fieldset": { borderColor: blue },
-                            },
-                            "& .MuiInputLabel-root.Mui-focused": { color: blue },
-                          }}
-                        />
-                        <TextField
-                          name="message"
-                          label="Message"
-                          multiline
-                          rows={3}
-                          size="small"
-                          required
-                          fullWidth
-                          placeholder="Your message..."
-                          slotProps={{
-                            inputLabel: { sx: { fontSize: "0.8rem" } },
-                            input: { sx: { fontSize: "0.8rem", bgcolor: inputBg } },
-                          }}
-                          sx={{
-                            "& .MuiOutlinedInput-root": {
-                              "& fieldset": { borderColor: border },
-                              "&:hover fieldset": { borderColor: blue },
-                              "&.Mui-focused fieldset": { borderColor: blue },
-                            },
-                            "& .MuiInputLabel-root.Mui-focused": { color: blue },
-                          }}
-                        />
+                {/* Right - form */}
+                <div className="flex-1 rounded-lg border border-border bg-card p-3">
+                  <h3 className="text-sm font-semibold mb-0.5">Send a Message</h3>
+                  <p className="text-muted-foreground text-[0.65rem] mb-3">
+                    {"I'll get back to you as soon as possible"}
+                  </p>
+                  <form onSubmit={handleSubmit} className="flex flex-col gap-2.5">
+                    <div>
+                      <label htmlFor="name" className="block text-xs font-medium mb-1">
+                        Name
+                      </label>
+                      <input
+                        id="name"
+                        name="name"
+                        required
+                        placeholder="Your name"
+                        className="w-full px-2.5 py-1.5 rounded border border-border bg-background text-xs placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-colors"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="email" className="block text-xs font-medium mb-1">
+                        Email
+                      </label>
+                      <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        required
+                        placeholder="your.email@example.com"
+                        className="w-full px-2.5 py-1.5 rounded border border-border bg-background text-xs placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-colors"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="message" className="block text-xs font-medium mb-1">
+                        Message
+                      </label>
+                      <textarea
+                        id="message"
+                        name="message"
+                        rows={3}
+                        required
+                        placeholder="Your message..."
+                        className="w-full px-2.5 py-1.5 rounded border border-border bg-background text-xs placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-colors resize-none"
+                      />
+                    </div>
 
-                        {submitMessage && (
-                          <Alert
-                            severity={submitMessage.type === "success" ? "success" : "error"}
-                            sx={{ fontSize: "0.75rem", py: 0 }}
-                          >
-                            {submitMessage.text}
-                            {submitMessage.type === "error" && (
-                              <Box sx={{ mt: 0.5 }}>
-                                <Typography component="span" sx={{ fontSize: "0.7rem" }}>
-                                  {"Reach me directly at: "}
-                                </Typography>
-                                <Typography
-                                  component="a"
-                                  href="mailto:vklokeshvk@gmail.com"
-                                  sx={{ fontSize: "0.7rem", color: blue, textDecoration: "underline" }}
-                                >
-                                  vklokeshvk@gmail.com
-                                </Typography>
-                              </Box>
-                            )}
-                          </Alert>
+                    {submitMessage && (
+                      <div
+                        className={`p-2 rounded text-xs ${
+                          submitMessage.type === "success"
+                            ? "bg-green-500/10 text-green-700 dark:text-green-400 border border-green-500/20"
+                            : "bg-red-500/10 text-red-700 dark:text-red-400 border border-red-500/20"
+                        }`}
+                      >
+                        {submitMessage.text}
+                        {submitMessage.type === "error" && (
+                          <div className="mt-1">
+                            <span className="text-[0.65rem]">Reach me directly at: </span>
+                            <a href="mailto:vklokeshvk@gmail.com" className="text-[0.65rem] text-primary underline">
+                              vklokeshvk@gmail.com
+                            </a>
+                          </div>
                         )}
+                      </div>
+                    )}
 
-                        <Button
-                          type="submit"
-                          variant="contained"
-                          size="small"
-                          disabled={isSubmitting}
-                          endIcon={<SendIcon sx={{ fontSize: 14 }} />}
-                          sx={{
-                            bgcolor: blue,
-                            textTransform: "none",
-                            fontSize: "0.75rem",
-                            "&:hover": { bgcolor: "#1d4ed8" },
-                            "&.Mui-disabled": { bgcolor: isDark ? "#374151" : "#e2e8f0" },
-                          }}
-                        >
-                          {isSubmitting ? "Sending..." : "Send Message"}
-                        </Button>
-                      </Box>
-                    </form>
-                  </CardContent>
-                </Card>
-              </Box>
-            </Container>
-          </Box>
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="flex items-center justify-center gap-1.5 px-3 py-1.5 rounded bg-primary text-primary-foreground text-xs font-medium hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    >
+                      {isSubmitting ? "Sending..." : "Send Message"}
+                      <Send size={12} />
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </section>
         )}
-      </Box>
+      </main>
 
       {/* Footer */}
-      <Box sx={{ bgcolor: isDark ? "#0f172a" : "#1e293b", py: 2 }}>
-        <Typography sx={{ color: "#94a3b8", fontSize: "0.7rem", textAlign: "center" }}>
+      <footer className="bg-slate-800 dark:bg-slate-900 py-3">
+        <p className="text-slate-400 text-[0.65rem] text-center">
           {"© 2024 Lokesh Venkatesan. All rights reserved."}
-        </Typography>
-      </Box>
-    </Box>
+        </p>
+      </footer>
+    </div>
   )
 }
