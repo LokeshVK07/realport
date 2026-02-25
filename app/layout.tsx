@@ -1,19 +1,14 @@
 import type React from "react"
 import type { Metadata, Viewport } from "next"
+import { Inter } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
 import "./globals.css"
 
+const inter = Inter({ subsets: ["latin"] })
+
 export const metadata: Metadata = {
-  title: "Lokesh Venkatesan - Portfolio",
-  description: "Projects, Resume, Data Science Portfolio - Available for Work",
-  openGraph: {
-    title: "Lokesh Venkatesan - Portfolio",
-    description: "Explore my featured projects, skills, and downloadable resume.",
-    url: "https://venkatesan-lokesh.vercel.app",
-    siteName: "Lokesh Portfolio",
-    locale: "en_US",
-    type: "website",
-  },
+  title: "Lokesh Venkatesan",
+  description: "Data Science Portfolio",
     generator: 'v0.app'
 }
 
@@ -21,17 +16,12 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
-  themeColor: "#2563eb",
 }
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="antialiased">
+      <body className={`${inter.className} antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           {children}
         </ThemeProvider>
