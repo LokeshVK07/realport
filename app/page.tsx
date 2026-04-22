@@ -5,14 +5,13 @@ import { Navbar } from "@/components/portfolio/navbar"
 import { Hero } from "@/components/portfolio/hero"
 import { About } from "@/components/portfolio/about"
 import { Education } from "@/components/portfolio/education"
-import { Timeline } from "@/components/portfolio/timeline"
 import { Skills } from "@/components/portfolio/skills"
 import { Projects } from "@/components/portfolio/projects"
 import { Blog } from "@/components/portfolio/blog"
 import { Contact } from "@/components/portfolio/contact"
 import { sendContactEmail } from "./actions/send-email"
 
-type ActiveSection = "home" | "about" | "journey" | "education" | "skills" | "projects" | "blog" | "contact"
+type ActiveSection = "home" | "about" | "education" | "skills" | "projects" | "blog" | "contact"
 
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState<ActiveSection>("home")
@@ -55,7 +54,6 @@ export default function Portfolio() {
       <div className="pt-20">
         {activeSection === "home" && <Hero setActiveSection={setActiveSection} />}
         {activeSection === "about" && <About setActiveSection={setActiveSection} languages={languages} />}
-        {activeSection === "journey" && <Timeline />}
         {activeSection === "education" && <Education />}
         {activeSection === "skills" && <Skills />}
         {activeSection === "projects" && <Projects />}
