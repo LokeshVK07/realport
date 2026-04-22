@@ -8,10 +8,11 @@ import { Education } from "@/components/portfolio/education"
 import { Timeline } from "@/components/portfolio/timeline"
 import { Skills } from "@/components/portfolio/skills"
 import { Projects } from "@/components/portfolio/projects"
+import { Blog } from "@/components/portfolio/blog"
 import { Contact } from "@/components/portfolio/contact"
 import { sendContactEmail } from "./actions/send-email"
 
-type ActiveSection = "home" | "about" | "journey" | "education" | "skills" | "projects" | "contact"
+type ActiveSection = "home" | "about" | "journey" | "education" | "skills" | "projects" | "blog" | "contact"
 
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState<ActiveSection>("home")
@@ -58,6 +59,7 @@ export default function Portfolio() {
         {activeSection === "education" && <Education />}
         {activeSection === "skills" && <Skills />}
         {activeSection === "projects" && <Projects />}
+        {activeSection === "blog" && <Blog />}
         {activeSection === "contact" && (
           <Contact
             handleSubmit={handleSubmit}

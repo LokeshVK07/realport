@@ -1,0 +1,30 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next"
+    },
+    {
+      "src": "cms/portfolio_cms/wsgi.py",
+      "use": "@vercel/python",
+      "config": {
+        "maxDuration": 10
+      }
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/blog/(.*)",
+      "destination": "cms/portfolio_cms/wsgi.py"
+    },
+    {
+      "source": "/admin/(.*)",
+      "destination": "cms/portfolio_cms/wsgi.py"
+    },
+    {
+      "source": "/static/admin/(.*)",
+      "destination": "cms/portfolio_cms/wsgi.py"
+    }
+  ]
+}

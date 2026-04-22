@@ -5,7 +5,7 @@ import { Home, Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/theme-toggle"
 
-type ActiveSection = "home" | "about" | "journey" | "education" | "skills" | "projects" | "contact"
+type ActiveSection = "home" | "about" | "journey" | "education" | "skills" | "projects" | "blog" | "contact"
 
 interface NavbarProps {
   activeSection: ActiveSection
@@ -52,6 +52,7 @@ export function Navbar({
             <NavButton section="education">Education</NavButton>
             <NavButton section="skills">Skills</NavButton>
             <NavButton section="projects">Projects</NavButton>
+            <NavButton section="blog">Blog</NavButton>
             <NavButton section="contact">Contact</NavButton>
             <ThemeToggle />
           </div>
@@ -71,7 +72,7 @@ export function Navbar({
 
               {mobileMenuOpen && (
                 <div className="absolute top-full right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-40 border border-gray-200 dark:border-gray-700">
-                  {(["home", "about", "journey", "education", "skills", "projects", "contact"] as const).map((section) => (
+                  {(["home", "about", "journey", "education", "skills", "projects", "blog", "contact"] as const).map((section) => (
                     <button
                       key={section}
                       onClick={() => {
